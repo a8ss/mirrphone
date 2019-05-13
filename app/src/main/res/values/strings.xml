@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">sms</string>
+    <string name="readFirst">读一条短信</string>
+</resources>
