@@ -93,19 +93,18 @@ public class MainActivity extends AppCompatActivity {
                 ContentResolver contentResolver = getContentResolver();
 
                 Cursor cursor = contentResolver.query(Uri.parse("content://sms/inbox"),
-                        new String[]{"_id", "address", "read", "body"}, "limit=1", null, "date desc");
+                        new String[]{"_id", "address", "read", "body"}, null, null, "date desc");
 
                 if (cursor == null) {
                     Log.e(TAG, "cursor is null");
                     return;
                 }
 
-                while (cursor.moveToNext()) {
-                    Log.d(TAG, cursor.getString(cursor.getColumnIndex("_id"))
-                            + " "
-                            + cursor.getString(cursor.getColumnIndex("body"))
-                    );
-                }
+                cursor.moveToNext();
+                Log.d(TAG, cursor.getString(cursor.getColumnIndex("_id"))
+                        + " "
+                        + cursor.getString(cursor.getColumnIndex("body"))
+                );
                 cursor.close();
             }
         };

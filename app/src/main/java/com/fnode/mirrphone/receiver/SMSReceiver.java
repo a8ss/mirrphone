@@ -7,13 +7,15 @@ import android.os.Bundle;
 import android.telephony.SmsMessage;
 import android.util.Log;
 
+import com.fnode.mirrphone.Send.Email;
+
 public class SMSReceiver extends BroadcastReceiver {
 
     protected static final String TAG = "SMSReceiver";
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.d(TAG, "收到了");
+        Log.d(TAG, "收到了短信：");
 
         Bundle bundle = intent.getExtras();
         assert bundle != null : "bundle is null";
@@ -26,10 +28,14 @@ public class SMSReceiver extends BroadcastReceiver {
         }
 
         StringBuilder sms = new StringBuilder();
+        String sender = "";
         for (SmsMessage s : smsMessage) {
             sms.append(s.getMessageBody());
+            sender = s.getOriginatingAddress();
         }
-
+        String subject = "您有了新短信";
+        String body = sms.toString() + "【" + sender + "】";
         Log.d(TAG, sms.toString());
+        Email.send(subject, body);
     }
 }

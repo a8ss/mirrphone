@@ -36,25 +36,32 @@
                     android:checked="false"
                     android:enabled="false"
                     android:text="@string/sendTypeHttp" />
+
             </LinearLayout>
 
-            <EditText
-                android:id="@+id/smtpAddress"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="@string/smtpAddress"
-                android:inputType=""
-                android:singleLine="true" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/port"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="@string/port"
-                android:inputType="number"
-                android:singleLine="true" />
+                <EditText
+                    android:id="@+id/smtpAddress"
+                    android:layout_width="285dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="@string/smtpAddress"
+                    android:inputType="textPersonName"
+                    android:singleLine="true" />
+
+                <EditText
+                    android:id="@+id/port"
+                    android:layout_width="125dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="@string/port"
+                    android:inputType="number"
+                    android:singleLine="true" />
+            </LinearLayout>
 
             <EditText
                 android:id="@+id/username"

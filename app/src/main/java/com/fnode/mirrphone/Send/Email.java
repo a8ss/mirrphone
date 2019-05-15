@@ -52,10 +52,6 @@ public class Email {
         });
     }
 
-    public static String getTAG() {
-        return TAG;
-    }
-
     public static int getPort() {
         return port;
     }
