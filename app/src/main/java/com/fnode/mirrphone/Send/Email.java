@@ -12,18 +12,16 @@ public class Email {
 
     private static final String TAG = "Email";
 
-    private int port = 465;
-    private String hostname = "";
-    private String sendTo = "";
-    private String sendFrom = "";
-    private String user = "";
-    private String passwd = "";
-    private String subject = "";
-    private String body = "";
+    private static int port = 465;
+    private static String hostname = "";
+    private static String sendTo = "";
+    private static String sendFrom = "";
+    private static String user = "";
+    private static String passwd = "";
+    private static String charset = "utf8";
 
-    private String charset = "utf8";
 
-    public void send() {
+    public static void send(final String subject, final String body) {
         CachedThreadPool.submit(new Runnable() {
             @Override
             public void run() {
@@ -54,75 +52,66 @@ public class Email {
         });
     }
 
-    public int getPort() {
+    public static String getTAG() {
+        return TAG;
+    }
+
+    public static int getPort() {
         return port;
     }
 
-    public void setPort(int port) {
-        this.port = port;
+    public static void setPort(int port) {
+        Email.port = port;
     }
 
-    public String getHostname() {
+    public static String getHostname() {
         return hostname;
     }
 
-    public void setHostname(String hostname) {
-        this.hostname = hostname;
+    public static void setHostname(String hostname) {
+        Email.hostname = hostname;
     }
 
-    public String getSendTo() {
+    public static String getSendTo() {
         return sendTo;
     }
 
-    public void setSendTo(String sendTo) {
-        this.sendTo = sendTo;
+    public static void setSendTo(String sendTo) {
+        Email.sendTo = sendTo;
     }
 
-    public String getSendFrom() {
+    public static String getSendFrom() {
         return sendFrom;
     }
 
-    public void setSendFrom(String sendFrom) {
-        this.sendFrom = sendFrom;
+    public static void setSendFrom(String sendFrom) {
+        Email.sendFrom = sendFrom;
     }
 
-    public String getUser() {
+    public static String getUser() {
         return user;
     }
 
-    public void setUser(String user) {
-        this.user = user;
+    public static void setUser(String user) {
+        Email.user = user;
     }
 
-    public String getPasswd() {
+    public static String getPasswd() {
         return passwd;
     }
 
-    public void setPasswd(String passwd) {
-        this.passwd = passwd;
+    public static void setPasswd(String passwd) {
+        Email.passwd = passwd;
     }
 
-    public String getSubject() {
-        return subject;
-    }
-
-    public void setSubject(String subject) {
-        this.subject = subject;
-    }
-
-    public String getBody() {
-        return body;
-    }
-
-    public void setBody(String body) {
-        this.body = body;
-    }
-
-    public String getCharset() {
+    public static String getCharset() {
         return charset;
     }
 
-    public void setCharset(String charset) {
-        this.charset = charset;
+    public static void setCharset(String charset) {
+        Email.charset = charset;
     }
+
+
+
 }

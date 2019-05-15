@@ -1,4 +1,15 @@
 <resources>
-    <string name="app_name">sms</string>
+    <string name="app_name">MirrPhone</string>
     <string name="readFirst">读一条短信</string>
+    <string name="sendTestEmail">发送测试邮件</string>
+    <string name="sendTypeEmail">发邮件</string>
+    <string name="sendTypeHttp">HTTP</string>
+    <string name="smtpAddress">smtp address</string>
+    <string name="toAddress">收件地址</string>
+    <string name="fromAddress">发件人</string>
+    <string name="username">用户名或邮箱</string>
+    <string name="password">密码</string>
+    <string name="port">端口 465或587</string>
+    <string name="httpAddress">http接口地址</string>
+    <string name="save">保存</string>
 </resources>
