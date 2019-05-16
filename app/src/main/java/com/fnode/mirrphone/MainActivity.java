@@ -30,8 +30,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        SenderConfig.mainActivity = MainActivity.this;
-        SenderConfig.load(getShardP());
         this.initView();
         this.initSender();
 
@@ -53,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initConfig() {
 
+        SenderConfig.mainActivity = MainActivity.this;
         SenderConfig.load(getShardP());
 
         Button btnSave = findViewById(R.id.save);
