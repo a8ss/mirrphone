@@ -34,7 +34,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="false"
-                    android:enabled="false"
                     android:text="@string/sendTypeHttp" />
 
             </LinearLayout>
@@ -46,20 +45,22 @@
 
                 <EditText
                     android:id="@+id/smtpAddress"
-                    android:layout_width="303dp"
+                    android:layout_width="285dp"
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:hint="@string/smtpAddress"
                     android:inputType="textPersonName"
+                    android:selectAllOnFocus="true"
                     android:singleLine="true" />
 
                 <EditText
                     android:id="@+id/port"
-                    android:layout_width="108dp"
+                    android:layout_width="125dp"
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:hint="@string/port"
                     android:inputType="number"
+                    android:selectAllOnFocus="true"
                     android:singleLine="true" />
             </LinearLayout>
 
@@ -108,17 +109,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:enabled="false"
                 android:hint="@string/httpAddress"
                 android:inputType=""
                 android:selectAllOnFocus="true"
                 android:singleLine="true" />
-
-            <Button
-                android:id="@+id/save"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/save" />
 
             <Button
                 android:id="@+id/readFirst"

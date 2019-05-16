@@ -10,6 +10,6 @@
     <string name="username">用户名或邮箱</string>
     <string name="password">密码</string>
     <string name="port">端口</string>
-    <string name="httpAddress">http接口地址</string>
+    <string name="httpAddress">http://</string>
     <string name="save">保存</string>
 </resources>

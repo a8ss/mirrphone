@@ -14,8 +14,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
 
 import com.fnode.mirrphone.Send.Email;
 
@@ -39,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
     protected void initView() {
 
-        this.initConfig();
+        SenderConfig.init(MainActivity.this, getShardP());
 
         Button btnReadFirst = findViewById(R.id.readFirst);
 
@@ -47,21 +45,6 @@ public class MainActivity extends AppCompatActivity {
 
         Button btnSendTestEmail = findViewById(R.id.sendTestEmail);
         btnSendTestEmail.setOnClickListener(sendTestEmail());
-    }
-
-    private void initConfig() {
-
-        SenderConfig.mainActivity = MainActivity.this;
-        SenderConfig.load(getShardP());
-
-        Button btnSave = findViewById(R.id.save);
-        btnSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SenderConfig.save(getShardP().edit());
-            }
-        });
-
     }
 
     private void initSender() {

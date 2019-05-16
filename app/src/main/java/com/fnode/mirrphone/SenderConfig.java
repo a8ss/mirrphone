@@ -3,11 +3,12 @@ package com.fnode.mirrphone;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.View;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.content.SharedPreferences;
-import android.widget.TextView;
+
+import java.util.HashMap;
 
 public class SenderConfig {
 
@@ -27,135 +28,85 @@ public class SenderConfig {
     private static boolean sendHttp = false;
 
 
-    public static MainActivity mainActivity;
+    private static MainActivity mainActivity;
+
+    private static HashMap<String, EditText> editTextHashMap = null;
+
+    private static HashMap<String, CheckBox> checkBoxHashMap = null;
+
+    private static SharedPreferences sharedPreferences = null;
 
 
-    public static void load(SharedPreferences sharedPreferences) {
+    private static void load() {
 
         SenderConfig.setSmtpAddress(sharedPreferences.getString("smtpAddress", ""));
-        updateSmtpAddress();
-        SenderConfig.setPort(sharedPreferences.getInt("port", 465));
-        updatePort();
+        SenderConfig.setPort(Integer.valueOf(sharedPreferences.getString("port", "465") + ""));
         SenderConfig.setUsername(sharedPreferences.getString("username", ""));
-        updateUsername();
         SenderConfig.setPassowrd(sharedPreferences.getString("password", ""));
-        updatePassword();
         SenderConfig.setFromAddress(sharedPreferences.getString("fromAddress", ""));
-        updateFromAddress();
         SenderConfig.setToAddress(sharedPreferences.getString("toAddress", ""));
-        updateToAddress();
         SenderConfig.setHttpAddress(sharedPreferences.getString("httpAddress", ""));
-        updateHttpAddress();
+
         SenderConfig.setSendEmail(sharedPreferences.getBoolean("sendEmail", true));
         SenderConfig.setSendHttp(sharedPreferences.getBoolean("sendHttp", false));
+
     }
 
-    public static void save(SharedPreferences.Editor editor) {
-        updateSmtpAddress();
-        editor.putString("smtpAddress", SenderConfig.getSmtpAddress());
-        updatePort();
-        editor.putInt("port", SenderConfig.getPort());
-        updateUsername();
-        editor.putString("username", SenderConfig.getUsername());
-        updatePassword();
-        editor.putString("password", SenderConfig.getPassowrd());
-        updateFromAddress();
-        editor.putString("fromAddress", SenderConfig.getFromAddress());
-        updateToAddress();
-        editor.putString("toAddress", SenderConfig.getToAddress());
-        updateHttpAddress();
-        editor.putString("httpAddress", SenderConfig.getHttpAddress());
-        updateSendEmail();
-        editor.putBoolean("sendEmail", SenderConfig.isSendEmail());
-        updateSendHttp();
-        editor.putBoolean("sendHttp", SenderConfig.isSendHttp());
+    static void init(MainActivity activity, SharedPreferences sharedP) {
+        mainActivity = activity;
+        sharedPreferences = sharedP;
 
-        editor.commit();
+
+        editTextHashMap = new HashMap<>();
+        editTextHashMap.put("smtpAddress", (EditText) mainActivity.findViewById(R.id.smtpAddress));
+        editTextHashMap.put("port", (EditText) mainActivity.findViewById(R.id.port));
+        editTextHashMap.put("username", (EditText) mainActivity.findViewById(R.id.username));
+        editTextHashMap.put("password", (EditText) mainActivity.findViewById(R.id.password));
+        editTextHashMap.put("fromAddress", (EditText) mainActivity.findViewById(R.id.fromAddress));
+        editTextHashMap.put("toAddress", (EditText) mainActivity.findViewById(R.id.toAddress));
+        editTextHashMap.put("httpAddress", (EditText) mainActivity.findViewById(R.id.httpAddress));
+
+        checkBoxHashMap = new HashMap<>();
+        checkBoxHashMap.put("sendEmail", (CheckBox) mainActivity.findViewById(R.id.sendTypeEmail));
+        checkBoxHashMap.put("sendHttp", (CheckBox) mainActivity.findViewById(R.id.sendTypeHttp));
+
+        load();
+        regOnChanged();
     }
 
-    public static void updateSmtpAddress() {
-        EditText smtpAddress = mainActivity.findViewById(R.id.smtpAddress);
-        String txt = smtpAddress.getText().toString();
 
-        if (!txt.equals("")) {
-            setSmtpAddress(txt);
-        } else {
-            smtpAddress.setText(getSmtpAddress());
+    private static void regOnChanged() {
+
+        for (final HashMap.Entry<String, EditText> editText : editTextHashMap.entrySet()) {
+            editText.getValue().addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    Log.d(TAG, editText.getKey() + " " + s.toString());
+                    sharedPreferences.edit().putString(editText.getKey(), s.toString()).apply();
+                }
+            });
         }
-    }
 
-    public static void updatePort() {
-        TextView port = mainActivity.findViewById(R.id.port);
-        String txt = port.getText().toString();
-
-        if (!txt.equals("")) {
-            setPort(Integer.valueOf(txt));
-        } else {
-            port.setText(String.valueOf(getPort()));
+        for (final HashMap.Entry<String, CheckBox> checkBoxEntry : checkBoxHashMap.entrySet()) {
+            checkBoxEntry.getValue().setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    sharedPreferences.edit().putBoolean(checkBoxEntry.getKey(), isChecked).apply();
+                }
+            });
         }
+
     }
-
-    public static void updateUsername() {
-        EditText username = mainActivity.findViewById(R.id.username);
-        String txt = username.getText().toString();
-
-        if (!txt.equals("")) {
-            setUsername(txt);
-        } else {
-            username.setText(getUsername());
-        }
-    }
-
-    public static void updatePassword() {
-        EditText passowrd = mainActivity.findViewById(R.id.password);
-        String txt = passowrd.getText().toString();
-        if (!txt.equals("")) {
-            setPassowrd(txt);
-        } else {
-            passowrd.setText(getPassowrd());
-        }
-    }
-
-    public static void updateFromAddress() {
-        EditText fromAddress = mainActivity.findViewById(R.id.fromAddress);
-        String txt = fromAddress.getText().toString();
-        if (!txt.equals("")) {
-            setFromAddress(txt);
-        } else {
-            fromAddress.setText(getFromAddress());
-        }
-    }
-
-    public static void updateToAddress() {
-        EditText toAddress = mainActivity.findViewById(R.id.toAddress);
-        String txt = toAddress.getText().toString();
-        if (!txt.equals("")) {
-            setToAddress(txt);
-        } else {
-            toAddress.setText(getToAddress());
-        }
-    }
-
-    public static void updateHttpAddress() {
-        EditText httpAddress = mainActivity.findViewById(R.id.httpAddress);
-        String txt = httpAddress.getText().toString();
-        if (!txt.equals("")) {
-            setHttpAddress(txt);
-        } else {
-            httpAddress.setText(getHttpAddress());
-        }
-    }
-
-    public static void updateSendEmail() {
-        CheckBox sendEmail = mainActivity.findViewById(R.id.sendTypeEmail);
-        setSendEmail(sendEmail.isChecked());
-    }
-
-    public static void updateSendHttp() {
-        CheckBox sendHttp = mainActivity.findViewById(R.id.sendTypeHttp);
-        setSendHttp(sendHttp.isChecked());
-    }
-
 
     public static String getSmtpAddress() {
         return smtpAddress;
@@ -163,6 +114,7 @@ public class SenderConfig {
 
     public static void setSmtpAddress(String smtpAddress) {
         SenderConfig.smtpAddress = smtpAddress;
+        editTextHashMap.get("smtpAddress").setText(smtpAddress);
     }
 
     public static String getFromAddress() {
@@ -171,6 +123,7 @@ public class SenderConfig {
 
     public static void setFromAddress(String fromAddress) {
         SenderConfig.fromAddress = fromAddress;
+        editTextHashMap.get("fromAddress").setText(fromAddress);
     }
 
     public static int getPort() {
@@ -179,6 +132,7 @@ public class SenderConfig {
 
     public static void setPort(int port) {
         SenderConfig.port = port;
+        editTextHashMap.get("port").setText(String.valueOf(port));
     }
 
     public static String getUsername() {
@@ -187,6 +141,7 @@ public class SenderConfig {
 
     public static void setUsername(String username) {
         SenderConfig.username = username;
+        editTextHashMap.get("username").setText(username);
     }
 
     public static String getPassowrd() {
@@ -195,6 +150,7 @@ public class SenderConfig {
 
     public static void setPassowrd(String passowrd) {
         SenderConfig.passowrd = passowrd;
+        editTextHashMap.get("password").setText(passowrd);
     }
 
     public static String getToAddress() {
@@ -203,6 +159,7 @@ public class SenderConfig {
 
     public static void setToAddress(String toAddress) {
         SenderConfig.toAddress = toAddress;
+        editTextHashMap.get("toAddress").setText(toAddress);
     }
 
     public static String getHttpAddress() {
@@ -211,6 +168,7 @@ public class SenderConfig {
 
     public static void setHttpAddress(String httpAddress) {
         SenderConfig.httpAddress = httpAddress;
+        editTextHashMap.get("httpAddress").setText(httpAddress);
     }
 
     public static boolean isSendEmail() {
@@ -219,6 +177,7 @@ public class SenderConfig {
 
     public static void setSendEmail(boolean sendEmail) {
         SenderConfig.sendEmail = sendEmail;
+        checkBoxHashMap.get("sendEmail").setChecked(sendEmail);
     }
 
     public static boolean isSendHttp() {
@@ -227,5 +186,6 @@ public class SenderConfig {
 
     public static void setSendHttp(boolean sendHttp) {
         SenderConfig.sendHttp = sendHttp;
+        checkBoxHashMap.get("sendHttp").setChecked(sendHttp);
     }
 }
